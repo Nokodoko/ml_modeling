@@ -54,7 +54,14 @@ def get_mae(max_leaf_nodes, train_X, value_X, train_Y, value_Y):
     return mae
 
 
-for max_leaf_nodes in [5, 50, 500, 5000]:
-    controlled_mae = get_mae(max_leaf_nodes, tr_X, val_X, tr_y, val_y)
-    print(
-        f"Max Leaf Nodes: {max_leaf_nodes} \t\t Mean Absolute Error: {controlled_mae}")
+def get_best_leaf(leaf_array):
+    scores = {leaf_size: get_mae(
+        leaf_size, tr_X, val_X, tr_y, val_y) for leaf_size in leaf_array}
+    best_score = min(scores, key=scores.get)
+    best_mae = scores[best_score]
+    print(f"Best Leaf Size: {best_score} \t\t MAE: {best_mae}")
+
+
+leaf_nodes_list = [5, 50, 500, 5000]
+
+get_best_leaf(leaf_nodes_list)
